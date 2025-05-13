@@ -1,32 +1,4 @@
-/**************************************************************************/
-/*  logger.cpp                                                            */
-/**************************************************************************/
-/*                         This file is part of:                          */
-/*                             GODOT ENGINE                               */
-/*                        https://godotengine.org                         */
-/**************************************************************************/
-/* Copyright (c) 2014-present Godot Engine contributors (see AUTHORS.md). */
-/* Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.                  */
-/*                                                                        */
-/* Permission is hereby granted, free of charge, to any person obtaining  */
-/* a copy of this software and associated documentation files (the        */
-/* "Software"), to deal in the Software without restriction, including    */
-/* without limitation the rights to use, copy, modify, merge, publish,    */
-/* distribute, sublicense, and/or sell copies of the Software, and to     */
-/* permit persons to whom the Software is furnished to do so, subject to  */
-/* the following conditions:                                              */
-/*                                                                        */
-/* The above copyright notice and this permission notice shall be         */
-/* included in all copies or substantial portions of the Software.        */
-/*                                                                        */
-/* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,        */
-/* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF     */
-/* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. */
-/* IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY   */
-/* CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,   */
-/* TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE      */
-/* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
-/**************************************************************************/
+
 
 #include "logger.h"
 
@@ -35,9 +7,11 @@
 #include "core/os/time.h"
 #include "core/templates/rb_set.h"
 
-#include "modules/modules_enabled.gen.h" // For regex.
+// #include "modules/modules_enabled.gen.h" // For regex.
+#include "core/mediator/modules_enabled.h"
 #ifdef MODULE_REGEX_ENABLED
-#include "modules/regex/regex.h"
+#include "core/mediator//modules_regex.h"
+// #include "modules/regex/regex.h"
 #else
 class RegEx : public RefCounted {};
 #endif // MODULE_REGEX_ENABLED
@@ -185,9 +159,15 @@ RotatedFileLogger::RotatedFileLogger(const String &p_base_path, int p_max_files)
 	rotate_file();
 
 #ifdef MODULE_REGEX_ENABLED
-	strip_ansi_regex.instantiate();
-	strip_ansi_regex->detach_from_objectdb(); // Note: This RegEx instance will exist longer than ObjectDB, therefore can't be registered in ObjectDB.
-	strip_ansi_regex->compile("\u001b\\[((?:\\d|;)*)([a-zA-Z])");
+	// strip_ansi_regex.instantiate();
+	strip_ansi_regex = Ref<IRegEx>(Object::cast_to<IRegEx>(ClassDB::instantiate(IRegEx::SubClassName)));
+	if (strip_ansi_regex.is_valid()) {
+		strip_ansi_regex->detach_from_objectdb(); // Note: This RegEx instance will exist longer than ObjectDB, therefore can't be registered in ObjectDB.
+		strip_ansi_regex->compile("\u001b\\[((?:\\d|;)*)([a-zA-Z])");
+	} else {
+		ERR_PRINT(vformat("[ERROR] %s instance failed to instantiate!", IRegEx::SubClassName));
+	}
+
 #endif // MODULE_REGEX_ENABLED
 }
 

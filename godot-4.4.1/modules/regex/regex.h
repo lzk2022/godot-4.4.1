@@ -31,6 +31,7 @@
 #ifndef REGEX_H
 #define REGEX_H
 
+#include "core/mediator/modules_regex.h"
 #include "core/object/ref_counted.h"
 #include "core/string/ustring.h"
 #include "core/templates/hash_map.h"
@@ -69,8 +70,8 @@ public:
 	int get_end(const Variant &p_name) const;
 };
 
-class RegEx : public RefCounted {
-	GDCLASS(RegEx, RefCounted);
+class RegEx : public IRegEx {
+	GDCLASS(RegEx, IRegEx);
 
 	void *general_ctx = nullptr;
 	void *code = nullptr;
@@ -93,7 +94,7 @@ public:
 	static Ref<RegEx> create_from_string(const String &p_pattern, bool p_show_error = true);
 
 	void clear();
-	Error compile(const String &p_pattern, bool p_show_error = true);
+	Error compile(const String &p_pattern, bool p_show_error = true) override;
 
 	Ref<RegExMatch> search(const String &p_subject, int p_offset = 0, int p_end = -1) const;
 	TypedArray<RegExMatch> search_all(const String &p_subject, int p_offset = 0, int p_end = -1) const;
