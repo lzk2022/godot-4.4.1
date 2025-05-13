@@ -6,10 +6,10 @@
 #include "core/license.gen.h"
 #include "core/variant/typed_array.h"
 #include "core/version.h"
-//#include "servers/rendering/rendering_device.h"
+// #include "servers/rendering/rendering_device.h"
 
-#include "core/mediator/servers_rendering_device.h"
 #include "core/mediator//service_locator.h"
+#include "core/mediator/servers_rendering_device.h"
 
 void Engine::set_physics_ticks_per_second(int p_ips) {
 	ERR_FAIL_COND_MSG(p_ips <= 0, "Engine iterations per second must be greater than 0.");
@@ -45,8 +45,6 @@ void Engine::set_max_fps(int p_fps) {
 
 	// servers 模块初始化
 	//memnew(RenderingDevice());
-	//ServiceLocator::register_service<RenderingDeviceInterface>(RenderingDevice::get_singleton());
-
 	RenderingDeviceInterface *rd = ServiceLocator::get_service<RenderingDeviceInterface>();
 	if (rd) {
 		rd->_set_max_fps(_max_fps);

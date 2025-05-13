@@ -45,6 +45,8 @@
 #include "drivers/metal/rendering_context_driver_metal.h"
 #endif
 
+#include "core/mediator/service_locator.h"
+
 DisplayServer *DisplayServer::singleton = nullptr;
 
 bool DisplayServer::hidpi_allowed = false;
@@ -1484,6 +1486,7 @@ bool DisplayServer::can_create_rendering_device() {
 
 DisplayServer::DisplayServer() {
 	singleton = this;
+	ServiceLocator::register_service<IDisplayServer>(this);
 	Input::set_mouse_mode_func = _input_set_mouse_mode;
 	Input::get_mouse_mode_func = _input_get_mouse_mode;
 	Input::set_mouse_mode_override_func = _input_set_mouse_mode_override;

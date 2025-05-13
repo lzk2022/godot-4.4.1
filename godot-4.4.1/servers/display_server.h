@@ -39,9 +39,11 @@
 
 #include "display/native_menu.h"
 
+#include "core/mediator/servers_display.h"
+
 class Texture2D;
 
-class DisplayServer : public Object {
+class DisplayServer : public Object, public IDisplayServer {
 	GDCLASS(DisplayServer, Object)
 
 	static DisplayServer *singleton;

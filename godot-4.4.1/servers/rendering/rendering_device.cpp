@@ -8028,6 +8028,7 @@ RenderingDevice::~RenderingDevice() {
 RenderingDevice::RenderingDevice() {
 	if (singleton == nullptr) {
 		singleton = this;
+		ServiceLocator::register_service<RenderingDeviceInterface>(this);
 	}
 
 	render_thread_id = Thread::get_caller_id();
