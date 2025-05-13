@@ -39,6 +39,7 @@
 #include "core/templates/self_list.h"
 
 class Node;
+class INode;
 
 #define RES_BASE_EXTENSION(m_ext)                                        \
 public:                                                                  \
@@ -74,11 +75,11 @@ private:
 
 	bool local_to_scene = false;
 	friend class SceneState;
-	Node *local_scene = nullptr;
+	INode *local_scene = nullptr;
 
 	SelfList<Resource> remapped_list;
 
-	void _dupe_sub_resources(Variant &r_variant, Node *p_for_scene, HashMap<Ref<Resource>, Ref<Resource>> &p_remap_cache);
+	void _dupe_sub_resources(Variant &r_variant, INode *p_for_scene, HashMap<Ref<Resource>, Ref<Resource>> &p_remap_cache);
 	void _find_sub_resources(const Variant &p_variant, HashSet<Ref<Resource>> &p_resources_found);
 
 protected:
@@ -97,7 +98,7 @@ protected:
 	GDVIRTUAL0(_reset_state);
 
 public:
-	static Node *(*_get_local_scene_func)(); //used by editor
+	static INode *(*_get_local_scene_func)(); //used by editor
 	static void (*_update_configuration_warning)(); //used by editor
 
 	void update_configuration_warning();
@@ -124,14 +125,14 @@ public:
 	String get_scene_unique_id() const;
 
 	virtual Ref<Resource> duplicate(bool p_subresources = false) const;
-	Ref<Resource> duplicate_for_local_scene(Node *p_for_scene, HashMap<Ref<Resource>, Ref<Resource>> &p_remap_cache);
-	void configure_for_local_scene(Node *p_for_scene, HashMap<Ref<Resource>, Ref<Resource>> &p_remap_cache);
+	Ref<Resource> duplicate_for_local_scene(INode *p_for_scene, HashMap<Ref<Resource>, Ref<Resource>> &p_remap_cache);
+	void configure_for_local_scene(INode *p_for_scene, HashMap<Ref<Resource>, Ref<Resource>> &p_remap_cache);
 
 	void set_local_to_scene(bool p_enable);
 	bool is_local_to_scene() const;
 	virtual void setup_local_to_scene();
 
-	Node *get_local_scene() const;
+	INode *get_local_scene() const;
 
 #ifdef TOOLS_ENABLED
 

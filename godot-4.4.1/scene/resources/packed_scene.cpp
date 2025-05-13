@@ -104,7 +104,8 @@ Ref<Resource> SceneState::get_remap_resource(const Ref<Resource> &p_resource, Ha
 			// This is mainly used when the sub-scene root is reset in the main scene.
 			Ref<Resource> sub_res_of_from = value;
 			if (sub_res_of_from.is_valid() && sub_res_of_from->is_local_to_scene()) {
-				value = get_remap_resource(sub_res_of_from, remap_cache, p_fallback->get(E.name), p_fallback->get_local_scene());
+				// value = get_remap_resource(sub_res_of_from, remap_cache, p_fallback->get(E.name), p_fallback->get_local_scene());
+				value = get_remap_resource(sub_res_of_from, remap_cache, p_fallback->get(E.name), Object::cast_to<Node>(p_fallback->get_local_scene()));
 			}
 
 			p_fallback->set(E.name, value);

@@ -66,7 +66,12 @@ void ViewportTexture::setup_local_to_scene() {
 		return;
 	}
 
-	Node *loc_scene = get_local_scene();
+	INode *i_loc_scene = get_local_scene();
+	if (!i_loc_scene) {
+		return;
+	}
+
+	Node *loc_scene = Object::cast_to<Node>(i_loc_scene);
 	if (!loc_scene) {
 		return;
 	}

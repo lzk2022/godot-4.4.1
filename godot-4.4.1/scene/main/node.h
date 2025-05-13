@@ -36,6 +36,8 @@
 #include "scene/main/scene_tree.h"
 #include "scene/scene_string_names.h"
 
+#include "core/mediator/scene_node.h"
+
 class Viewport;
 class Window;
 class SceneState;
@@ -45,8 +47,8 @@ class PropertyTweener;
 SAFE_FLAG_TYPE_PUN_GUARANTEES
 SAFE_NUMERIC_TYPE_PUN_GUARANTEES(uint32_t)
 
-class Node : public Object {
-	GDCLASS(Node, Object);
+class Node : public INode {
+	GDCLASS(Node, INode);
 
 protected:
 	// During group processing, these are thread-safe.

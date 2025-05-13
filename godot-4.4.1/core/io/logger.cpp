@@ -10,7 +10,7 @@
 // #include "modules/modules_enabled.gen.h" // For regex.
 #include "core/mediator/modules_enabled.h"
 #ifdef MODULE_REGEX_ENABLED
-#include "core/mediator//modules_regex.h"
+#include "core/mediator/modules_regex.h"
 // #include "modules/regex/regex.h"
 #else
 class RegEx : public RefCounted {};

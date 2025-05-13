@@ -6797,8 +6797,13 @@ void EditorNode::_bind_methods() {
 	ADD_SIGNAL(MethodInfo("scene_closed", PropertyInfo(Variant::STRING, "path")));
 }
 
-static Node *_resource_get_edited_scene() {
-	return EditorNode::get_singleton()->get_edited_scene();
+// static Node *_resource_get_edited_scene() {
+// 	return EditorNode::get_singleton()->get_edited_scene();
+// }
+
+static INode *_resource_get_edited_scene() {
+	// 假设 Node 继承自 INode
+	return Object::cast_to<INode>(EditorNode::get_singleton()->get_edited_scene());
 }
 
 void EditorNode::_print_handler(void *p_this, const String &p_string, bool p_error, bool p_rich) {
