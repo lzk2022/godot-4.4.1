@@ -1051,6 +1051,8 @@ if env["ninja"]:
 if env["threads"]:
     env.Append(CPPDEFINES=["THREADS_ENABLED"])
 
+env.Append(CPPPATH=['#thirdparty'])
+
 # Build subdirs, the build order is dependent on link order.
 Export("env")
 
