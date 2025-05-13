@@ -42,6 +42,8 @@
 #include "servers/rendering/rendering_device_driver.h"
 #include "servers/rendering/rendering_device_graph.h"
 
+#include "core/mediator/servers_rendering_device.h"
+
 class RDTextureFormat;
 class RDTextureView;
 class RDAttachmentFormat;
@@ -57,7 +59,7 @@ class RDPipelineColorBlendState;
 class RDFramebufferPass;
 class RDPipelineSpecializationConstant;
 
-class RenderingDevice : public RenderingDeviceCommons {
+class RenderingDevice : public RenderingDeviceCommons,public RenderingDeviceInterface {
 	GDCLASS(RenderingDevice, Object)
 
 	_THREAD_SAFE_CLASS_
@@ -1561,7 +1563,7 @@ public:
 	Error initialize(RenderingContextDriver *p_context, DisplayServer::WindowID p_main_window = DisplayServer::INVALID_WINDOW_ID);
 	void finalize();
 
-	void _set_max_fps(int p_max_fps);
+	void _set_max_fps(int p_max_fps) override;
 
 	void free(RID p_id);
 

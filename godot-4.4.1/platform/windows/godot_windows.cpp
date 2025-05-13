@@ -57,6 +57,51 @@ static const char dummy[8] __attribute__((section("pck"), used)) = { 0 };
 #endif
 #endif
 
+#include "thirdparty/spdlog/spdlog.h"
+#include <thirdparty/spdlog/sinks/basic_file_sink.h>
+#include <thirdparty/spdlog/sinks/stdout_color_sinks.h>
+
+void alloc_consle() {
+	SetConsoleOutputCP(CP_UTF8);
+	// 分配控制台
+	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
+	freopen("CONIN$", "r", stdin);
+}
+
+void init_log() {
+	alloc_consle();
+	SetConsoleOutputCP(CP_UTF8);
+	std::string filepath = "monitor.log";
+	try {
+		// 创建文件接收器
+		auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(filepath, false);
+
+		// 创建控制台接收器
+		auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+
+		// 设置控制台接收器的日志格式，启用颜色
+		console_sink->set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] [%s:%#] %v");
+
+		// 创建多重接收器记录器
+		std::vector<spdlog::sink_ptr> sinks{ file_sink, console_sink };
+		auto logger = std::make_shared<spdlog::logger>("global_logger", sinks.begin(), sinks.end());
+
+		// 设置日志等级
+		logger->set_level(spdlog::level::info);
+
+		// 设置全局记录器
+		spdlog::set_default_logger(logger);
+
+		// 设置文件接收器的日志格式
+		// file_sink->set_pattern("[%Y-%m-%d %H:%M:%S] [%l] %v");
+		// 设置控制台接收器的日志格式，启用颜色
+		file_sink->set_pattern("[%Y-%m-%d %H:%M:%S] [%^%l%$] [%s:%#] %v");
+	} catch (const spdlog::spdlog_ex &ex) {
+		std::cerr << "Log initialization failed: " << ex.what() << std::endl;
+	}
+}
+
 char *wc_to_utf8(const wchar_t *wc) {
 	int ulen = WideCharToMultiByte(CP_UTF8, 0, wc, -1, nullptr, 0, nullptr, nullptr);
 	char *ubuf = new char[ulen + 1];
@@ -66,7 +111,11 @@ char *wc_to_utf8(const wchar_t *wc) {
 }
 
 int widechar_main(int argc, wchar_t **argv) {
+	init_log();
 	OS_Windows os(nullptr);
+
+	SPDLOG_TRACE_LOCATION;
+	SPDLOG_INFO("测试");
 
 	setlocale(LC_CTYPE, "");
 
