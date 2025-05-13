@@ -43,7 +43,9 @@
 #include "core/string/translation_server.h"
 #include "core/templates/rb_set.h"
 #include "core/variant/variant_parser.h"
-#include "servers/rendering_server.h"
+// #include "servers/rendering_server.h"
+
+#include "core/mediator/servers_rendering.h"
 
 #ifdef DEBUG_LOAD_THREADED
 #define print_lt(m_text) print_line(m_text)
@@ -926,7 +928,8 @@ bool ResourceLoader::_ensure_load_progress() {
 	if (OS::get_singleton()->is_separate_thread_rendering_enabled()) {
 		return false; // Not needed.
 	}
-	RenderingServer::get_singleton()->sync();
+	// RenderingServer::get_singleton()->sync();
+	ServiceLocator::get_service<IRenderingServer>()->sync();
 	return true;
 }
 

@@ -3568,7 +3568,7 @@ void RenderingServer::set_render_loop_enabled(bool p_enabled) {
 
 RenderingServer::RenderingServer() {
 	//ERR_FAIL_COND(singleton);
-
+	ServiceLocator::register_service<IRenderingServer>(this);
 	singleton = this;
 }
 

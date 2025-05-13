@@ -40,6 +40,8 @@
 #include "servers/display_server.h"
 #include "servers/rendering/rendering_device.h"
 
+#include "core/mediator/servers_rendering.h"
+
 // Helper macros for code outside of the rendering server, but that is
 // called by the rendering server.
 #ifdef DEBUG_ENABLED
@@ -56,7 +58,7 @@
 #define ERR_NOT_ON_RENDER_THREAD_V(m_ret)
 #endif
 
-class RenderingServer : public Object {
+class RenderingServer : public Object, public IRenderingServer {
 	GDCLASS(RenderingServer, Object);
 
 	static RenderingServer *singleton;
