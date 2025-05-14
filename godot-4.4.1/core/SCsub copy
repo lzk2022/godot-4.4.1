@@ -38,41 +38,31 @@ thirdparty_misc_sources = [thirdparty_misc_dir + file for file in thirdparty_mis
 env_thirdparty.add_source_files(thirdparty_obj, thirdparty_misc_sources)
 
 # Brotli
-# if env["brotli"] and env["builtin_brotli"]:
-#     thirdparty_brotli_dir = "#thirdparty/brotli/"
-#     thirdparty_brotli_sources = [
-#         "common/constants.c",
-#         "common/context.c",
-#         "common/dictionary.c",
-#         "common/platform.c",
-#         "common/shared_dictionary.c",
-#         "common/transform.c",
-#         "dec/bit_reader.c",
-#         "dec/decode.c",
-#         "dec/huffman.c",
-#         "dec/state.c",
-#     ]
-#     thirdparty_brotli_sources = [thirdparty_brotli_dir + file for file in thirdparty_brotli_sources]
-
-#     env_thirdparty.Prepend(CPPPATH=[thirdparty_brotli_dir + "include"])
-#     env.Prepend(CPPPATH=[thirdparty_brotli_dir + "include"])
-#     log_info("build brotli")
-#     if env.get("use_ubsan") or env.get("use_asan") or env.get("use_tsan") or env.get("use_lsan") or env.get("use_msan"):
-#         log_info("BROTLI_BUILD_PORTABLE")
-#         env_thirdparty.Append(CPPDEFINES=["BROTLI_BUILD_PORTABLE"])
-
-#     env_thirdparty.add_source_files(thirdparty_obj, thirdparty_brotli_sources)
-
 if env["brotli"] and env["builtin_brotli"]:
     thirdparty_brotli_dir = "#thirdparty/brotli/"
-    brotli_lib_path = thirdparty_brotli_dir + "build"
-    brotli_include_path = thirdparty_brotli_dir + "include"
+    thirdparty_brotli_sources = [
+        "common/constants.c",
+        "common/context.c",
+        "common/dictionary.c",
+        "common/platform.c",
+        "common/shared_dictionary.c",
+        "common/transform.c",
+        "dec/bit_reader.c",
+        "dec/decode.c",
+        "dec/huffman.c",
+        "dec/state.c",
+    ]
+    thirdparty_brotli_sources = [thirdparty_brotli_dir + file for file in thirdparty_brotli_sources]
 
-    # 加入头文件路径
-    env.Prepend(CPPPATH=[brotli_include_path])
-    brotli_lib = os.path.join(brotli_lib_path, "brotli.lib")
-    # 添加Brotli库到链接中
-    env.Append(LINKFLAGS=[env.File(brotli_lib).abspath])
+    env_thirdparty.Prepend(CPPPATH=[thirdparty_brotli_dir + "include"])
+    env.Prepend(CPPPATH=[thirdparty_brotli_dir + "include"])
+    log_info("build brotli")
+    if env.get("use_ubsan") or env.get("use_asan") or env.get("use_tsan") or env.get("use_lsan") or env.get("use_msan"):
+        log_info("BROTLI_BUILD_PORTABLE")
+        env_thirdparty.Append(CPPDEFINES=["BROTLI_BUILD_PORTABLE"])
+
+    env_thirdparty.add_source_files(thirdparty_obj, thirdparty_brotli_sources)
+
 
 # Clipper2 Thirdparty source files used for polygon and polyline boolean operations.
 if env["builtin_clipper2"]:

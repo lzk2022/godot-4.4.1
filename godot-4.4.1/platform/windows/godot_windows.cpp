@@ -70,8 +70,8 @@ void alloc_consle() {
 }
 
 void init_log() {
-	alloc_consle();
-	SetConsoleOutputCP(CP_UTF8);
+	// alloc_consle();
+	// SetConsoleOutputCP(CP_UTF8);
 	std::string filepath = "monitor.log";
 	try {
 		// 创建文件接收器
