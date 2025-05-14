@@ -5,6 +5,14 @@ Import("env")
 
 env.servers_sources = []
 
+env.Prepend(CPPPATH=["#thirdparty/amd-fsr2/"])
+env.Append(LIBPATH=["#thirdparty/build/amd-fsr2/"])
+env.Append(LINKFLAGS=["amd-fsr2.lib"])
+
+env.Prepend(CPPPATH=["#thirdparty/spirv-reflect/"])
+env.Append(LIBPATH=["#thirdparty/build/spirv-reflect/"])
+env.Append(LINKFLAGS=["spirv-reflect.lib"])
+
 env.add_source_files(env.servers_sources, "audio_server.cpp")
 env.add_source_files(env.servers_sources, "camera_server.cpp")
 env.add_source_files(env.servers_sources, "display_server.cpp")

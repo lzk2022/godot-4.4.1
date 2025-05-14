@@ -9,11 +9,11 @@ env_effects = env.Clone()
 
 thirdparty_obj = []
 
-thirdparty_dir = "#thirdparty/amd-fsr2/"
-thirdparty_sources = ["ffx_assert.cpp", "ffx_fsr2.cpp"]
-thirdparty_sources = [thirdparty_dir + file for file in thirdparty_sources]
+# thirdparty_dir = "#thirdparty/amd-fsr2/"
+# thirdparty_sources = ["ffx_assert.cpp", "ffx_fsr2.cpp"]
+# thirdparty_sources = [thirdparty_dir + file for file in thirdparty_sources]
 
-env_effects.Prepend(CPPPATH=[thirdparty_dir])
+# env_effects.Prepend(CPPPATH=[thirdparty_dir])
 
 # This flag doesn't actually control anything GCC specific in FSR2. It determines
 # if symbols should be exported, which is not required for Godot.
@@ -21,7 +21,7 @@ env_effects.Append(CPPDEFINES=["FFX_GCC"])
 
 env_thirdparty = env_effects.Clone()
 env_thirdparty.disable_warnings()
-env_thirdparty.add_source_files(thirdparty_obj, thirdparty_sources)
+# env_thirdparty.add_source_files(thirdparty_obj, thirdparty_sources)
 env.servers_sources += thirdparty_obj
 
 # Godot source files
