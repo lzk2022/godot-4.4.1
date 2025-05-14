@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(brotli C)
+project(zlib C)
 
 # MSVC 设置 UTF-8 编译选项
 if(MSVC)
@@ -39,24 +39,22 @@ if(MSVC)
 	endforeach()
 endif()
 
-set(BROTLI_SOURCES
-	common/constants.c
-	common/context.c
-	common/dictionary.c
-	common/platform.c
-	common/shared_dictionary.c
-	common/transform.c
-	dec/bit_reader.c
-	dec/decode.c
-	dec/huffman.c
-	dec/state.c
+# 指定静态库
+add_library(zlib STATIC
+	adler32.c
+	compress.c
+	crc32.c
+	deflate.c
+	inffast.c
+	inflate.c
+	inftrees.c
+	trees.c
+	uncompr.c
+	zutil.c
 )
 
-add_library(brotli STATIC ${BROTLI_SOURCES})
+# 指定头文件路径
+target_include_directories(zlib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_include_directories(brotli PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-# 如果需要设置编译定义，比如 sanitizer 相关：
-if(USE_SANITIZER)
-	target_compile_definitions(brotli PUBLIC BROTLI_BUILD_PORTABLE)
-endif()
+# 在构建时添加宏定义 CLIPPER2_ENABLED
+target_compile_definitions(zlib PUBLIC ZLIB_DEBUG)

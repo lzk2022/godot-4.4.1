@@ -1,5 +1,8 @@
-cmake_minimum_required(VERSION 3.16)
-project(brotli C)
+cmake_minimum_required(VERSION 3.10)
+project(clipper2)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # MSVC 设置 UTF-8 编译选项
 if(MSVC)
@@ -39,24 +42,15 @@ if(MSVC)
 	endforeach()
 endif()
 
-set(BROTLI_SOURCES
-	common/constants.c
-	common/context.c
-	common/dictionary.c
-	common/platform.c
-	common/shared_dictionary.c
-	common/transform.c
-	dec/bit_reader.c
-	dec/decode.c
-	dec/huffman.c
-	dec/state.c
+# 设置为静态库
+add_library(clipper2 STATIC
+	src/clipper.engine.cpp
+	src/clipper.offset.cpp
+	src/clipper.rectclip.cpp
 )
 
-add_library(brotli STATIC ${BROTLI_SOURCES})
+# 指定头文件路径
+target_include_directories(clipper2 PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_include_directories(brotli PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-# 如果需要设置编译定义，比如 sanitizer 相关：
-if(USE_SANITIZER)
-	target_compile_definitions(brotli PUBLIC BROTLI_BUILD_PORTABLE)
-endif()
+# 在构建时添加宏定义 CLIPPER2_ENABLED
+target_compile_definitions(clipper2 PUBLIC CLIPPER2_ENABLED)
