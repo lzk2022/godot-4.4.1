@@ -66,76 +66,32 @@ if env["builtin_zlib"]:
     log_info("builtin_zlib (CMake build)")
     thirdparty_zlib_dir = "#thirdparty/zlib/"
     thirdparty_zlib_build_dir = thirdparty_zlib_dir + "build/"
-
-    # 引入头文件路径
-    env_thirdparty.Prepend(CPPPATH=[thirdparty_zlib_dir])
     env.Prepend(CPPPATH=[thirdparty_zlib_dir])
-
-    # 引入库路径
-    env_thirdparty.Append(LIBPATH=[thirdparty_zlib_build_dir])
     env.Append(LIBPATH=[thirdparty_zlib_build_dir])
-
-    # 链接 zlib 静态库
-    env_thirdparty.Append(LINKFLAGS=["zlib.lib"])
     env.Append(LINKFLAGS=["zlib.lib"])
 
     if env.dev_build:
         log_info("ZLIB_DEBUG")
-        env_thirdparty.Append(CPPDEFINES=["ZLIB_DEBUG"])
         env.Append(CPPDEFINES=["ZLIB_DEBUG"])
 
-# Minizip library, could be unbundled in theory
-# However, our version has some custom modifications, so it won't compile with the system one
+# Minizip library, built via CMake
 thirdparty_minizip_dir = "#thirdparty/minizip/"
-thirdparty_minizip_sources = ["ioapi.c", "unzip.c", "zip.c"]
-thirdparty_minizip_sources = [thirdparty_minizip_dir + file for file in thirdparty_minizip_sources]
-env_thirdparty.add_source_files(thirdparty_obj, thirdparty_minizip_sources)
+thirdparty_minizip_build_dir = thirdparty_minizip_dir + "build/"
+env.Prepend(CPPPATH=[thirdparty_minizip_dir])
+env.Append(LIBPATH=[thirdparty_minizip_build_dir])
+env.Append(LINKFLAGS=["minizip.lib"])
 
-# Zstd library, can be unbundled in theory
-# though we currently use some private symbols
-# https://github.com/godotengine/godot/issues/17374
+
 if env["builtin_zstd"]:
     thirdparty_zstd_dir = "#thirdparty/zstd/"
-    thirdparty_zstd_sources = [
-        "common/debug.c",
-        "common/entropy_common.c",
-        "common/error_private.c",
-        "common/fse_decompress.c",
-        "common/pool.c",
-        "common/threading.c",
-        "common/xxhash.c",
-        "common/zstd_common.c",
-        "compress/fse_compress.c",
-        "compress/hist.c",
-        "compress/huf_compress.c",
-        "compress/zstd_compress.c",
-        "compress/zstd_double_fast.c",
-        "compress/zstd_fast.c",
-        "compress/zstd_lazy.c",
-        "compress/zstd_ldm.c",
-        "compress/zstd_opt.c",
-        "compress/zstdmt_compress.c",
-        "compress/zstd_compress_literals.c",
-        "compress/zstd_compress_sequences.c",
-        "compress/zstd_compress_superblock.c",
-        "decompress/huf_decompress.c",
-        "decompress/zstd_ddict.c",
-        "decompress/zstd_decompress_block.c",
-        "decompress/zstd_decompress.c",
-    ]
-    if env["platform"] in ["android", "ios", "linuxbsd", "macos"] and env["arch"] == "x86_64":
-        # Match platforms with ZSTD_ASM_SUPPORTED in common/portability_macros.h
-        thirdparty_zstd_sources.append("decompress/huf_decompress_amd64.S")
-    thirdparty_zstd_sources = [thirdparty_zstd_dir + file for file in thirdparty_zstd_sources]
-
-    env_thirdparty.Prepend(CPPPATH=[thirdparty_zstd_dir, thirdparty_zstd_dir + "common"])
-    env_thirdparty.Append(CPPDEFINES=["ZSTD_STATIC_LINKING_ONLY"])
-
-    env.Prepend(CPPPATH=thirdparty_zstd_dir)
-    # Also needed in main env includes will trigger warnings
+    thirdparty_zstd_build_dir = thirdparty_zstd_dir + "build/"
+    env.Prepend(CPPPATH=[thirdparty_zstd_dir, thirdparty_zstd_dir + "common"])
     env.Append(CPPDEFINES=["ZSTD_STATIC_LINKING_ONLY"])
-    log_info("ZSTD_STATIC_LINKING_ONLY")
-    env_thirdparty.add_source_files(thirdparty_obj, thirdparty_zstd_sources)
+    env.Append(LIBPATH=[thirdparty_zstd_build_dir])
+    env.Append(LINKFLAGS=["zstd.lib"])
+
+    log_info("Using Zstd library built via CMake (static linking).")
+
 
 
 env.core_sources += thirdparty_obj
