@@ -35,6 +35,8 @@
 
 #include "thirdparty/misc/pcg.h"
 
+#include "core/typedefs.h"
+
 #include <math.h>
 
 #if defined(__GNUC__)
