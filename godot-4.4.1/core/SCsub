@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from misc.utility.scons_hints import *
+from custom.utils import *
 
 Import("env")
 
@@ -11,7 +12,9 @@ import methods
 
 env.core_sources = []
 
+
 # Add required thirdparty code.
+log_info("build core")
 
 thirdparty_obj = []
 
@@ -55,6 +58,7 @@ if env["brotli"] and env["builtin_brotli"]:
     env.Prepend(CPPPATH=[thirdparty_brotli_dir + "include"])
 
     if env.get("use_ubsan") or env.get("use_asan") or env.get("use_tsan") or env.get("use_lsan") or env.get("use_msan"):
+        log_info("BROTLI_BUILD_PORTABLE")
         env_thirdparty.Append(CPPDEFINES=["BROTLI_BUILD_PORTABLE"])
 
     env_thirdparty.add_source_files(thirdparty_obj, thirdparty_brotli_sources)
