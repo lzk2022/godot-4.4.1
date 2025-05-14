@@ -31,16 +31,15 @@ thirdparty_misc_sources = [
     "smaz.c",
     # C++ sources
     "pcg.cpp",
-    # "polypartition.cpp",
     "smolv.cpp",
 ]
 thirdparty_misc_sources = [thirdparty_misc_dir + file for file in thirdparty_misc_sources]
 env_thirdparty.add_source_files(thirdparty_obj, thirdparty_misc_sources)
 
 if env["brotli"] and env["builtin_brotli"]:
-    thirdparty_brotli_dir = "#thirdparty/brotli/"
-    brotli_lib_path = thirdparty_brotli_dir + "build"
-    brotli_include_path = thirdparty_brotli_dir + "include"
+
+    brotli_lib_path = "#thirdparty/build/brotli/"
+    brotli_include_path = "#thirdparty/brotli/include/"
 
     # 加入头文件路径
     env.Prepend(CPPPATH=[brotli_include_path])
@@ -49,9 +48,8 @@ if env["brotli"] and env["builtin_brotli"]:
     env.Append(LINKFLAGS=[env.File(brotli_lib).abspath])
 
 if env["builtin_clipper2"]:
-    thirdparty_clipper_dir = "#thirdparty/clipper2/"
-    thirdparty_clipper_lib_dir = thirdparty_clipper_dir + "build/"
-    thirdparty_clipper_include_dir = thirdparty_clipper_dir + "include"
+    thirdparty_clipper_lib_dir = "#thirdparty/build/clipper2/"
+    thirdparty_clipper_include_dir = "#thirdparty/clipper2/include"
 
     env.Prepend(CPPPATH=[thirdparty_clipper_include_dir])
     env.Append(LIBPATH=[thirdparty_clipper_lib_dir])
@@ -65,7 +63,7 @@ if env["builtin_clipper2"]:
 if env["builtin_zlib"]:
     log_info("builtin_zlib (CMake build)")
     thirdparty_zlib_dir = "#thirdparty/zlib/"
-    thirdparty_zlib_build_dir = thirdparty_zlib_dir + "build/"
+    thirdparty_zlib_build_dir =  "#thirdparty/build/zlib/"
     env.Prepend(CPPPATH=[thirdparty_zlib_dir])
     env.Append(LIBPATH=[thirdparty_zlib_build_dir])
     env.Append(LINKFLAGS=["zlib.lib"])
@@ -76,7 +74,7 @@ if env["builtin_zlib"]:
 
 # Minizip library, built via CMake
 thirdparty_minizip_dir = "#thirdparty/minizip/"
-thirdparty_minizip_build_dir = thirdparty_minizip_dir + "build/"
+thirdparty_minizip_build_dir =  "#thirdparty/build/minizip/"
 env.Prepend(CPPPATH=[thirdparty_minizip_dir])
 env.Append(LIBPATH=[thirdparty_minizip_build_dir])
 env.Append(LINKFLAGS=["minizip.lib"])
@@ -84,7 +82,7 @@ env.Append(LINKFLAGS=["minizip.lib"])
 
 if env["builtin_zstd"]:
     thirdparty_zstd_dir = "#thirdparty/zstd/"
-    thirdparty_zstd_build_dir = thirdparty_zstd_dir + "build/"
+    thirdparty_zstd_build_dir = "#thirdparty/build/zstd/"
     env.Prepend(CPPPATH=[thirdparty_zstd_dir, thirdparty_zstd_dir + "common"])
     env.Append(CPPDEFINES=["ZSTD_STATIC_LINKING_ONLY"])
     env.Append(LIBPATH=[thirdparty_zstd_build_dir])
