@@ -31,7 +31,7 @@ thirdparty_misc_sources = [
     "smaz.c",
     # C++ sources
     "pcg.cpp",
-    "polypartition.cpp",
+    # "polypartition.cpp",
     "smolv.cpp",
 ]
 thirdparty_misc_sources = [thirdparty_misc_dir + file for file in thirdparty_misc_sources]

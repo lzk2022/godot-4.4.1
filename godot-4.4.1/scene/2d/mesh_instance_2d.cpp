@@ -35,8 +35,8 @@
 #include "scene/scene_string_names.h"
 #include "servers/navigation_server_2d.h"
 
+#include "core/math/polypartition.h"
 #include "thirdparty/clipper2/include/clipper2/clipper.h"
-#include "thirdparty/misc/polypartition.h"
 
 Callable MeshInstance2D::_navmesh_source_geometry_parsing_callback;
 RID MeshInstance2D::_navmesh_source_geometry_parser;

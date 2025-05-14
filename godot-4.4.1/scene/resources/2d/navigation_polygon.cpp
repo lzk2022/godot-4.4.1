@@ -33,7 +33,7 @@
 #include "core/math/geometry_2d.h"
 #include "core/os/mutex.h"
 
-#include "thirdparty/misc/polypartition.h"
+#include "core/math/polypartition.h"
 
 #ifdef DEBUG_ENABLED
 Rect2 NavigationPolygon::_edit_get_rect() const {

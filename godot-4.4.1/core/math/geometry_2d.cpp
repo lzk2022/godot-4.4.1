@@ -30,8 +30,8 @@
 
 #include "geometry_2d.h"
 
+#include "core/math/polypartition.h"
 #include "thirdparty/clipper2/include/clipper2/clipper.h"
-#include "thirdparty/misc/polypartition.h"
 #define STB_RECT_PACK_IMPLEMENTATION
 #include "thirdparty/misc/stb_rect_pack.h"
 
