@@ -31,7 +31,7 @@
 #ifndef GODOT_MODULE_MBEDTLS_CONFIG_H
 #define GODOT_MODULE_MBEDTLS_CONFIG_H
 
-#include "platform_config.h"
+#include "core/platform_config.h"
 
 #ifdef GODOT_MBEDTLS_INCLUDE_H
 

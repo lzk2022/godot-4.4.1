@@ -15,7 +15,7 @@ if is_builtin or not has_module:
     # Use our headers for builtin or if the module is not going to be compiled.
     # We decided not to depend on system mbedtls just for these few files that can
     # be easily extracted.
-    env_crypto.Prepend(CPPPATH=["#thirdparty/mbedtls/include"])
+    # env_crypto.Prepend(CPPPATH=["#thirdparty/mbedtls/include"])
 
 # MbedTLS core functions (for CryptoCore).
 # If the mbedtls module is compiled we don't need to add the .c files with our
@@ -53,12 +53,12 @@ if not has_module:
 elif is_builtin:
     log_info("elif is_builtin:")
     # Module mbedTLS config file
-    config_path = "thirdparty/mbedtls/include/godot_module_mbedtls_config.h"
-    config_path = f"<{config_path}>" if env_crypto["ninja"] and env_crypto.msvc else f'\\"{config_path}\\"'
-    env_crypto.Append(CPPDEFINES=[("MBEDTLS_CONFIG_FILE", config_path)])
-    log_info("MBEDTLS_CONFIG_FILE")
-    # Needed to force rebuilding the core files when the configuration file is updated.
-    thirdparty_obj = ["#thirdparty/mbedtls/include/godot_module_mbedtls_config.h"]
+    # config_path = "thirdparty/mbedtls/include/godot_module_mbedtls_config.h"
+    # config_path = f"<{config_path}>" if env_crypto["ninja"] and env_crypto.msvc else f'\\"{config_path}\\"'
+    # env_crypto.Append(CPPDEFINES=[("MBEDTLS_CONFIG_FILE", config_path)])
+    # log_info("MBEDTLS_CONFIG_FILE")
+    # # Needed to force rebuilding the core files when the configuration file is updated.
+    # thirdparty_obj = ["#thirdparty/mbedtls/include/godot_module_mbedtls_config.h"]
 
 # Godot source files
 
