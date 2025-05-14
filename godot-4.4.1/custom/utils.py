@@ -16,15 +16,10 @@ def log(level, message):
     caller_file_path = caller_frame.f_code.co_filename
     caller_line_number = caller_frame.f_lineno
     caller_file_name = os.path.basename(caller_file_path)
-    caller_function_name = caller_frame.f_code.co_name
 
     # 日志函数自身位置（例如log_debug的位置）
     log_func_frame = inspect.currentframe().f_back
     log_func_file_path = log_func_frame.f_code.co_filename
-    log_func_line_number = log_func_frame.f_lineno
-    log_func_file_name = os.path.basename(log_func_file_path)
-    log_func_name = log_func_frame.f_code.co_name
-
     # 当前时间戳
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -34,13 +29,8 @@ def log(level, message):
         f" - {message} "
     )
 
-    # 输出到控制台
     print(log_message)
-
-    # 确保日志目录存在
     ensure_log_directory()
-
-    # 写入日志文件
     with open(LOG_FILE_PATH, "a", encoding="utf-8") as log_file:
         log_file.write(log_message + "\n")
 
@@ -56,3 +46,5 @@ def log_warning(message):
 
 def log_error(message):
     log("error", message)
+
+

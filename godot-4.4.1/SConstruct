@@ -1056,7 +1056,63 @@ env.Append(CPPPATH=['#thirdparty'])
 # Build subdirs, the build order is dependent on link order.
 Export("env")
 
-SConscript("core/SCsub")
+from custom.utils import *
+
+monitor_dir = os.getcwd().replace("\godot-4.4.1\godot-4.4.1","/godot-2025-05-12/monitor")
+monitor_build = monitor_dir + "/build/"
+print("monitor_dir:"+monitor_dir)
+
+
+env.Prepend(CPPPATH=["#thirdparty/misc/"])
+env.Append(LIBPATH=[monitor_build+"misc"])
+env.Append(LINKFLAGS=["misc.lib"])
+
+if env["brotli"] and env["builtin_brotli"]:
+    env.Prepend(CPPPATH=["#thirdparty/brotli/include/"])
+    env.Append(LIBPATH=[monitor_build+"brotli"])
+    env.Append(LINKFLAGS=["brotli.lib"])
+
+if env["builtin_clipper2"]:
+    env.Prepend(CPPPATH=["#thirdparty/clipper2/include"])
+    env.Append(LIBPATH=[monitor_build + "clipper2"])
+    env.Append(LINKFLAGS=["clipper2.lib"])
+    env.Append(CPPDEFINES=["CLIPPER2_ENABLED"])
+
+# Zlib library, built via CMake
+if env["builtin_zlib"]:
+    env.Prepend(CPPPATH=["#thirdparty/zlib/"])
+    env.Append(LIBPATH=[monitor_build + "zlib"])
+    env.Append(LINKFLAGS=["zlib.lib"])
+    if env.dev_build:
+        env.Append(CPPDEFINES=["ZLIB_DEBUG"])
+
+# Minizip library, built via CMake
+env.Prepend(CPPPATH=["#thirdparty/minizip/"])
+env.Append(LIBPATH=[monitor_build + "minizip"])
+env.Append(LINKFLAGS=["minizip.lib"])
+
+if env["builtin_zstd"]:
+    env.Prepend(CPPPATH=["#thirdparty/zstd/", "#thirdparty/zstd/common"])
+    env.Append(CPPDEFINES=["ZSTD_STATIC_LINKING_ONLY"])
+    env.Append(LIBPATH=[monitor_build + "zstd"])
+    env.Append(LINKFLAGS=["zstd.lib"])
+
+    log_info("Using Zstd library built via CMake (static linking).")
+
+# crypto/SCsub 模块
+env.Prepend(CPPPATH=["#thirdparty/mbedtls/include"])
+config_path = "thirdparty/mbedtls/include/godot_module_mbedtls_config.h"
+config_path = f"<{config_path}>" if env["ninja"] and env.msvc else f'\\"{config_path}\\"'
+env.Append(CPPDEFINES=[("MBEDTLS_CONFIG_FILE", config_path)])
+log_info("MBEDTLS_CONFIG_FILE")
+
+# core_dir = "C:/work/godot/godot-2025-05-12/godot-2025-05-12/monitor/core/"
+# lib_dir = "C:/work/godot/godot-2025-05-12/godot-2025-05-12/monitor/build/core/"
+env.Prepend(CPPPATH=[monitor_dir + "/core/"])
+env.Append(LIBPATH=[monitor_dir + "/build/core/"])
+env.Append(LINKFLAGS=["core.lib"])
+
+# SConscript("core/SCsub")
 SConscript("servers/SCsub")
 SConscript("scene/SCsub")
 if env.editor_build:
