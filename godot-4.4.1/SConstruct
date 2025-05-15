@@ -1112,8 +1112,21 @@ env.Prepend(CPPPATH=[monitor_dir + "/core/"])
 env.Append(LIBPATH=[monitor_dir + "/build/core/"])
 env.Append(LINKFLAGS=["core.lib"])
 
+# servers 模块
+env.Prepend(CPPPATH=["#thirdparty/amd-fsr2/"])
+env.Append(LIBPATH=[monitor_build+"amd-fsr2"])
+env.Append(LINKFLAGS=["amd-fsr2.lib"])
+
+env.Prepend(CPPPATH=["#thirdparty/spirv-reflect/"])
+env.Append(LIBPATH=[monitor_build+"spirv-reflect"])
+env.Append(LINKFLAGS=["spirv-reflect.lib"])
+
+env.Prepend(CPPPATH=[monitor_dir + "/servers/"])
+env.Append(LIBPATH=[monitor_dir + "/build/servers/"])
+env.Append(LINKFLAGS=["servers.lib"])
+
 # SConscript("core/SCsub")
-SConscript("servers/SCsub")
+# SConscript("servers/SCsub")
 SConscript("scene/SCsub")
 if env.editor_build:
     SConscript("editor/SCsub")
