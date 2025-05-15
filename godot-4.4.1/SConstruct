@@ -1125,9 +1125,13 @@ env.Prepend(CPPPATH=[monitor_dir + "/servers/"])
 env.Append(LIBPATH=[monitor_dir + "/build/servers/"])
 env.Append(LINKFLAGS=["servers.lib"])
 
+env.Prepend(CPPPATH=[monitor_dir + "/scene/"])
+env.Append(LIBPATH=[monitor_dir + "/build/scene/"])
+env.Append(LINKFLAGS=["scene.lib"])
+
 # SConscript("core/SCsub")
 # SConscript("servers/SCsub")
-SConscript("scene/SCsub")
+# SConscript("scene/SCsub")
 if env.editor_build:
     SConscript("editor/SCsub")
 SConscript("drivers/SCsub")

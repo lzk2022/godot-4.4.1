@@ -5,11 +5,17 @@ project(${LIB_NAME})
 # file(GLOB_RECURSE SOURCES "*.cpp")
 file(GLOB_RECURSE HEADERS "*.h")
 set(SOURCES
+
+	# core
 	fastlz.c
 	r128.c
 	smaz.c
 	pcg.cpp
 	smolv.cpp
+
+	# scene
+	mikktspace.c
+	qoa.c
 )
 
 # 要排除的目录
